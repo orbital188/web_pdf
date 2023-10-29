@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Exporter</title>
+    <style>
+        /* CSS Reset */
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* Adjust the box model */
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        
+        #container {
+            width: 75%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 10px;
+        }
+        .inputBox {
+            margin-bottom: 15px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            margin-top: 5px;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #008CBA;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <!-- Multiple Input Boxes with Titles -->
+        <div class="inputBox">
+            <h3>Title 1</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 2</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 3</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 4</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 5</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 6</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 7</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 8</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 9</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <div class="inputBox">
+            <h3>Title 10</h3>
+            <textarea rows="10"></textarea>
+        </div>
+        <label for="imageUpload">Upload an image:</label><input type="file" name="image" id="imageUpload"><br><br>
+<button onclick="exportText()">Export Text</button>
+    </div>
+    <script>
+        
+function exportText() {
+    // Collect all textareas
+    const textareas = document.querySelectorAll('textarea');
+    
+    // Extract text from each textarea
+    let textData = [];
+    textareas.forEach((textarea, index) => {
+        const titleElement = document.querySelector(`h3:nth-child(${2*index + 1})`);
+        const title = titleElement ? titleElement.innerText : `Title ${index + 1}`;
+        textData.push({
+            title: title,
+            content: textarea.value
+        });
+    });
+    
+    // Send data to the server
+    fetch('/export', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: textData })
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    });
+}
+
+    </script>
+</body>
+</html>
